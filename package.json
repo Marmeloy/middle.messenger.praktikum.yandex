@@ -3,18 +3,30 @@
   "scripts": {
     "dev": "parcel src/*.pug",
     "build": "parcel build src/*.pug",
-    "start": "node src/server.js"
+    "start": "node src/server.ts",
+    "lint": "eslint 'src/**/*.ts'",
+    "styles": "stylelint src/**/*.scss"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "pug": "^3.0.2",
+    "uuid": "^9.0.0"
   },
   "devDependencies": {
     "@parcel/transformer-pug": "^2.7.0",
     "@parcel/transformer-sass": "^2.7.0",
+    "@typescript-eslint/eslint-plugin": "^5.41.0",
+    "@typescript-eslint/parser": "^5.41.0",
     "assert": "^2.0.0",
     "buffer": "^6.0.3",
-    "express": "^4.18.2",
+    "eslint": "^8.26.0",
+    "eslint-config-airbnb": "^19.0.4",
     "os-browserify": "^0.3.0",
     "parcel": "^2.7.0",
     "path-browserify": "^1.0.1",
     "process": "^0.11.10",
-    "pug": "^3.0.2"
+    "stylelint": "^14.14.0",
+    "stylelint-config-standard": "^29.0.0",
+    "stylelint-config-standard-scss": "^6.0.0"
   }
 }

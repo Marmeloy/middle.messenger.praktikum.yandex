@@ -4,6 +4,16 @@
 
 - <a href="https://delightful-lebkuchen-c9203f.netlify.app/">Netlify</a>
 
+## Pull requests
+- <a href="https://github.com/Marmeloy/middle.messenger.praktikum.yandex/pull/1">Sprint 1</a>
+
+## Инструменты
+- TypeScript
+- Node Express
+- <b>Шаблонизатор:</b> Pug
+- <b>Сборщик:</b> Parcel
+- <b>Code Style:</b> ESLint & StyleLint
+
 ## Команды
 
 Развёртывание проекта:

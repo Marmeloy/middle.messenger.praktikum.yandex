@@ -1,0 +1,42 @@
+{
+  "extends": "airbnb",
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint"],
+  "env": {
+    "browser": true
+  },
+  "rules": {
+    "@typescript-eslint/no-unused-vars": "off",
+    "no-unused-vars": "off",
+    "import/prefer-default-export": "off",
+    "no-underscore-dangle": "off",
+    "no-shadow": "off",
+    "no-use-before-define": "off",
+    "no-console": "off",
+    "no-alert": "off",
+    "max-len": "off",
+    "func-names": "off",
+    "prefer-regex-literals": "off",
+    "class-methods-use-this": "off",
+    "prefer-promise-reject-errors": "off",
+    "no-mixed-operators": "off",
+    "no-param-reassign": "off",
+    "import/extensions": [
+      "error",
+      "ignorePackages",
+      {
+        "js": "never",
+        "jsx": "never",
+        "ts": "never",
+        "tsx": "never"
+      }
+    ]
+  },
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "extensions": [".js", ".jsx", ".ts", ".tsx"]
+      }
+    }
+  }
+}

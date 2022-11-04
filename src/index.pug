@@ -1,56 +1,11 @@
 doctype html
-html(lang="en")
+html(lang="ru")
     head
         link(rel="stylesheet" href="./styles.scss")
     body
-        .screen
-            .sidebar
-                .sidebar__header
-                    a.sidebar__profile(href="./profile.pug") Профиль
-                    .sidebar__search
-                        .search-field
-                            input(type="text" placeholder="Поиск")
-                .sidebar__chats
-                    .chats
-                        .chats__item.chat-item
-                            .chat-item__avatar
-                            .chat-item__content
-                                .chat-item__name Андрей
-                                .chat-item__message Друзья, у меня для вас особенный выпуск новостей!...
-                            .chat-item__status
-                                .chat-item__time 10:49
-                                .chat-item__counter
-                                    span 2
-            .chat
-                .chat__header
-                    .chat-header
-                        .chat-header__info
-                            .chat-header__avatar
-                            .chat-header__name Вадим
-                        .chat-header__actions
-                            .chat-header__actions-button
-                                span
-                                span
-                                span
-                .chat__messages
-                    .chat-messages
-                        .chat-messages__timestamp 19 июня
-                        .chat-messages__message.text-message.text-message--ingoind
-                            .text-message__content
-                                p Привет! Смотри, тут всплыл интересный кусок лунной космической истории — НАСА в какой-то момент попросила Хассельблад адаптировать модель SWC для полетов на Луну. Сейчас мы все знаем что астронавты летали с моделью 500 EL — и к слову говоря, все тушки этих камер все еще находятся на поверхности Луны, так как астронавты с собой забрали только кассеты с пленкой.
-                                p Хассельблад в итоге адаптировал SWC для космоса, но что-то пошло не так и на ракету они так никогда и не попали. Всего их было произведено 25 штук, одну из них недавно продали на аукционе за 45000 евро.
-                            .text-message__status.message-status
-                                .message-status__time 11:56
-                        .chat-messages__message.text-message.text-message--outgoing
-                            .text-message__content
-                                p Круто!
-                            .text-message__status.message-status
-                                .message-status__status
-                                .message-status__time 12:00
-                .chat__footer
-                    .chat-footer
-                        .chat-footer__pin-button
-                        .chat-footer__message-field
-                            input(type="text" name="message" placeholder="Сообщение")
-                        .chat-footer__send-message
-                            button(type="submit")
+        div#page
+        script(type="module").
+          // После введения роутинга этот скрипт будет не нужен
+          import {MessengerController} from "./controllers/messenger/MessengerController";
+          const controller = new MessengerController();
+          controller.index();

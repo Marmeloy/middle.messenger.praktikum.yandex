@@ -1,0 +1,28 @@
+.message-status {
+  display: flex;
+  align-items: center;
+
+  &__status {
+    flex-shrink: 0;
+    margin-right: 4px;
+
+    &::before {
+      content: "";
+      display: block;
+      width: 10px;
+      height: 4px;
+      background-image: url("../../../../../../static/images/icons/status-read.svg");
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: contain;
+    }
+  }
+
+  &__time {
+    font-weight: 500;
+    font-size: 9px;
+    line-height: 9px;
+    text-align: right;
+    color: #999;
+  }
+}

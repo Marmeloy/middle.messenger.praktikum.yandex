@@ -1,0 +1,36 @@
+.profile {
+  width: 510px;
+  max-width: 100%;
+
+  &__avatar {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 21px;
+
+    img {
+      width: 130px;
+      height: 130px;
+    }
+  }
+
+  &__name {
+    text-align: center;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 16px;
+    color: #1E1E1E;
+  }
+
+  &__info {
+    padding: 60px 0;
+
+    .form-control + .form-control {
+      border-top: 1px solid #EAEAEA;
+      margin-top: 0;
+    }
+
+    .submit {
+      margin-top: 60px;
+    }
+  }
+}

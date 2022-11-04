@@ -1,0 +1,37 @@
+.text-message {
+  padding: 11px;
+  background: #F8F8F8;
+  width: auto;
+  min-width: 114px;
+  max-width: 40%;
+  border-radius: 0 15px 15px;
+
+  &__content {
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 15px;
+    color: #1E1E1E;
+
+    p {
+      & + p {
+        margin-top: 15px;
+      }
+    }
+  }
+
+  &__status {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: -8px;
+  }
+
+  &--outgoing {
+    align-self: flex-end;
+    border-radius: 15px 15px 0;
+    background: #E4EDFD;
+
+    .message-status__time {
+      color: #3369F3;
+    }
+  }
+}

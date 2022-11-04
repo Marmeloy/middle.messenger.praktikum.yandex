@@ -1,0 +1,25 @@
+.search-field {
+  background: #EFEFEF;
+  border-radius: 5px;
+
+  input {
+    background: transparent;
+    border: none;
+    width: 100%;
+    padding: 10px;
+
+    &:focus {
+      outline: none;
+    }
+
+    &::placeholder {
+      font-family: inherit;
+      font-style: normal;
+      font-weight: 500;
+      font-size: 12px;
+      line-height: 12px;
+      color: #999;
+      text-align: center;
+    }
+  }
+}
