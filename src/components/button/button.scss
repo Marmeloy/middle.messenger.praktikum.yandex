@@ -1,0 +1,24 @@
+.btn {
+  display: block;
+  border-radius: 8px;
+  width: 100%;
+  text-align: center;
+  text-decoration: none;
+  padding: 12px;
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 13px;
+  border: none;
+  &--blue {
+    background: #3369F3;
+    color: #fff;
+  }
+  &--transparent {
+    background: transparent;
+    font-weight: 500;
+    font-size: 11px;
+    line-height: 11px;
+    color: #3369F3;
+    padding: 14px;
+  }
+}

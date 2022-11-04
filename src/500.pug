@@ -1,0 +1,11 @@
+doctype html
+html(lang="en")
+    head
+        link(rel="stylesheet" href="./styles.scss")
+    body
+        div#page
+        script(type="module").
+            import {render} from "./pages/error500/error500";
+
+            const page = document.getElementById('page');
+            page.innerHTML = render();

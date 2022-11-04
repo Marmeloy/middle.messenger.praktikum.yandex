@@ -1,0 +1,53 @@
+.text-field {
+  &--vertical {
+    .text-field__label {
+      font-weight: 500;
+      font-size: 9px;
+      line-height: 9px;
+      color: #999999;
+    }
+
+    .text-field__input {
+      input {
+        width: 100%;
+        border: none;
+        border-bottom: 1px solid #3369F3;
+        outline: none;
+        font-weight: 500;
+        font-size: 13px;
+        line-height: 13px;
+        color: #1E1E1E;
+        padding: 7px 0;
+      }
+    }
+  }
+  &--horizontal {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 10px 0;
+    .text-field__label {
+      font-weight: 500;
+      font-size: 13px;
+      line-height: 13px;
+      color: #1E1E1E;
+      flex-shrink: 0;
+    }
+    .text-field__input {
+      flex-grow: 1;
+      input {
+        width: 100%;
+        font-weight: 500;
+        font-size: 13px;
+        line-height: 13px;
+        text-align: right;
+        color: #999999;
+        border: none;
+        &:focus {
+          outline: none;
+        }
+      }
+    }
+  }
+}
