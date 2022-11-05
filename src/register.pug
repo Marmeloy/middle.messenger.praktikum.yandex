@@ -1,11 +1,11 @@
 doctype html
-html(lang="en")
+html(lang="ru")
     head
         link(rel="stylesheet" href="./styles.scss")
     body
         div#page
         script(type="module").
-            import {render} from "./pages/register/index";
-
-            const page = document.getElementById('page');
-            page.innerHTML = render();
+          // После введения роутинга этот скрипт будет не нужен
+          import {RegisterController} from "./controllers/auth/RegisterController";
+          const controller = new RegisterController();
+          controller.index();

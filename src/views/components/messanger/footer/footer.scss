@@ -1,0 +1,75 @@
+.chat-footer {
+  padding: 11px 0;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  border-top: 1px solid #EAEAEA;
+
+  &__pin-button {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 10px;
+
+    &::before {
+      content: "";
+      display: block;
+      width: 21px;
+      height: 23px;
+      background-image: url("../../../../../static/images/icons/pin.svg");
+      background-size: contain;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+  }
+
+  &__message-field {
+    flex-grow: 1;
+    margin: 0 10px;
+
+    input {
+      width: 100%;
+      padding: 10px 20px;
+      background: #EFEFEF;
+      border-radius: 30px;
+      border: none;
+
+      &:focus {
+        outline: none;
+      }
+
+      &::placeholder {
+        font-weight: 500;
+        font-size: 12px;
+        line-height: 12px;
+        color: #999;
+      }
+    }
+  }
+
+  &__send-message {
+    button {
+      width: 28px;
+      height: 28px;
+      background: #3369F3;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: none;
+
+      &::before {
+        content: "";
+        display: block;
+        width: 11px;
+        height: 10px;
+        background-image: url("../../../../../static/images/icons/arrow-right.svg");
+        background-size: contain;
+        background-position: center;
+        background-repeat: no-repeat;
+      }
+    }
+  }
+}
