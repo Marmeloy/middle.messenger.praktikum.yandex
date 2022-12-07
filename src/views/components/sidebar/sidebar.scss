@@ -5,7 +5,8 @@
   background: #FBFBFB;
   padding: 21px 10px 0;
   border-right: 1px solid #EAEAEA;
-
+  display: flex;
+  flex-direction: column;
   &__header {
     border-bottom: 1px solid #EAEAEA;
     padding-bottom: 14px;
@@ -38,5 +39,10 @@
 
   &__search {
     margin-top: 25px;
+  }
+  &__content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
   }
 }

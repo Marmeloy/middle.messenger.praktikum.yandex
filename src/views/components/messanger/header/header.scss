@@ -4,10 +4,11 @@
   align-items: center;
   padding: 10px 0;
   border-bottom: 1px solid #EAEAEA;
-
+  position: relative;
   &__info {
     display: flex;
     align-items: center;
+    flex-grow: 1;
   }
 
   &__avatar {
@@ -63,5 +64,20 @@
         background: #3369F3;
       }
     }
+  }
+  &__menu {
+    position: absolute;
+    right: 0;
+    top: 60px
+  }
+}
+
+.chat-menu {
+  display: none;
+  background: #FFFFFF;
+  box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.14);
+  border-radius: 12px;
+  &--opened {
+    display: block;
   }
 }

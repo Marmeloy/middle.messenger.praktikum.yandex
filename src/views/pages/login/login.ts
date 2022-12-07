@@ -4,6 +4,7 @@ import { Card } from '../../components/card';
 import { Screen } from '../../layouts/screen';
 import { Form, TextField, Submit } from '../../components/form';
 import { child, props, View } from '../../../utils/view';
+import {AuthController} from "../../../controllers/auth/AuthController";
 
 interface TProps extends props {
     content?: child,
@@ -53,16 +54,18 @@ export function render() {
         }),
         new Button({
           title: 'Нет аккаунта?',
-          link: '/register.html',
+          link: '/register',
         }),
       ],
     }),
     events: {
       submit: (e:Event) => {
         e.preventDefault();
-        loginField.validate('login');
-        passwordField.validate('password');
-        console.log(form.getData());
+        let isValid = loginField.validate('login') && passwordField.validate('password');
+        if (isValid) {
+          const authController = new AuthController();
+          authController.login(form.getData());
+        }
       },
     },
   });

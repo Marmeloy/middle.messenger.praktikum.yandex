@@ -8,4 +8,8 @@ export const template = `
             span
             span
             span
+        .chat-header__menu.chat-menu(class=(isOpen ? 'chat-menu--opened' : ''))
+            .chat-menu__item !{addButton}
+            .chat-menu__item !{removeButton}
+    .chat-header__modal !{modal}
 `;

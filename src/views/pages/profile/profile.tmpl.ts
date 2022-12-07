@@ -3,7 +3,8 @@ export const template = `
     if avatar
         .profile__avatar
             img(src=avatar)
-    if name
-        .profile__name #{name}
+    if user
+        .profile__name #{user.firstName}
     .profile__info !{content}
+    .profile_modal !{modal}
 `;

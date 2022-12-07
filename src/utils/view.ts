@@ -179,7 +179,17 @@ export abstract class View<TProps extends props> {
       this._element = element.firstChild as HTMLElement;
     } else {
       this._element.innerHTML = '';
-      this._element.append(element.firstChild as HTMLElement);
+      const block = element.firstChild as HTMLElement;
+      if (block && block.childNodes.length > 0) {
+        this._element.setAttribute('class', '');
+        block.classList.forEach((item) => {
+          this._element.classList.add(item);
+        })
+        const children = Array.from(block.childNodes) as ChildNode[];
+        children.forEach((childNode) => {
+          this._element.appendChild(childNode);
+        });
+      }
     }
     this._addEvents();
   }

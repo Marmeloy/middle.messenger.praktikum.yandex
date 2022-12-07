@@ -1,10 +1,12 @@
 import { template } from './chats.tmpl';
 import './chats.scss';
-import { props, View } from '../../../../utils/view';
-import { chat } from '../../../../utils/types';
+import {child, props, View} from '../../../../utils/view';
+import Chat from "../../../../models/Chat";
+
 
 interface TProps extends props {
-    chats?: chat[],
+    chats?: Chat[],
+    button?: child
 }
 
 export class Chats extends View<TProps> {
@@ -15,6 +17,7 @@ export class Chats extends View<TProps> {
   render():DocumentFragment {
     return this.compile(template, {
       chats: this.props.chats,
+      button: this.props.button
     });
   }
 }

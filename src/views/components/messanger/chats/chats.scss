@@ -1,8 +1,24 @@
+.chats {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  &__chats {
+    flex-grow: 1;
+  }
+  &__button {
+    padding-bottom: 10px;
+  }
+}
+
 .chat-item {
   display: flex;
-  padding: 12px 0;
+  padding: 12px;
   border-bottom: 1px solid #EAEAEA;
-
+  transition: all .3s ease;
+  cursor: pointer;
+  &:hover {
+    background: rgba(0,0,0,.1);
+  }
   &__avatar {
     height: 100%;
     display: flex;

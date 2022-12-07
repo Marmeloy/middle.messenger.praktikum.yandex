@@ -3,9 +3,5 @@ html(lang="ru")
     head
         link(rel="stylesheet" href="./styles.scss")
     body
-        div#page
-        script(type="module").
-          // После введения роутинга этот скрипт будет не нужен
-          import {MessengerController} from "./controllers/messenger/MessengerController";
-          const controller = new MessengerController();
-          controller.index();
+        div.app
+        script(type="module" src="./app.ts")

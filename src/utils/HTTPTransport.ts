@@ -5,7 +5,7 @@ const METHODS = {
   DELETE: 'DELETE',
 };
 
-function queryStringify(data:FormData):string {
+function queryStringify(data:XMLHttpRequestBodyInit):string {
   if (typeof data !== 'object') {
     throw new Error('Data must be object');
   }
@@ -14,14 +14,14 @@ function queryStringify(data:FormData):string {
   return keys.reduce((result, key, index) => `${result}${key}=${data[key]}${index < keys.length - 1 ? '&' : ''}`, '?');
 }
 
-type options = {
+export type options = {
     headers?: Record<string, string>,
     method?: string,
     timeout?: number,
-    data?: FormData
+    data?: XMLHttpRequestBodyInit
 }
 
-class HTTPTransport {
+export default class HTTPTransport {
   get = (url:string, options:options = {}) => this.request(url, { ...options, method: METHODS.GET }, options.timeout);
 
   post = (url:string, options:options = {}) => this.request(url, { ...options, method: METHODS.POST }, options.timeout);
@@ -33,7 +33,7 @@ class HTTPTransport {
   request = (url:string, options:options = {}, timeout:number = 5000) => {
     const { headers = {}, method, data } = options;
 
-    return new Promise((resolve, reject) => {
+    return new Promise<XMLHttpRequest>((resolve, reject) => {
       if (!method) {
         reject('No method');
         return;
@@ -41,7 +41,7 @@ class HTTPTransport {
 
       const xhr = new XMLHttpRequest();
       const isGet = method === METHODS.GET;
-
+      xhr.withCredentials = true;
       xhr.open(
         method,
         isGet && !!data
@@ -62,7 +62,6 @@ class HTTPTransport {
 
       xhr.timeout = timeout;
       xhr.ontimeout = reject;
-
       if (isGet || !data) {
         xhr.send();
       } else {

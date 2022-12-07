@@ -6,7 +6,7 @@ import {
   validateLogin,
   validateName,
   validatePassword,
-  validatePhone,
+  validatePhone, validateString,
 } from '../../../../../utils/validate';
 
 interface TProps extends props {
@@ -36,11 +36,20 @@ export class TextField extends View<TProps> {
     });
   }
 
-  validate(field:string):void {
+  getValue():string|null {
     const input:HTMLInputElement|null = this.element.querySelector('input');
     if (input) {
-      const { value } = input;
-      let state;
+      const {value} = input;
+      return input.value;
+    }
+    return null;
+  }
+
+  validate(field:string):boolean {
+    let state = false;
+    const input:HTMLInputElement|null = this.element.querySelector('input');
+    const value = this.getValue();
+    if (value) {
       switch (field) {
         case 'login':
           state = validateLogin(value);
@@ -57,6 +66,9 @@ export class TextField extends View<TProps> {
         case 'phone':
           state = validatePhone(value);
           break;
+        case 'string':
+          state = validateString(value);
+          break;
         default:
           state = true;
           break;
@@ -66,5 +78,6 @@ export class TextField extends View<TProps> {
         value,
       });
     }
+    return state;
   }
 }
