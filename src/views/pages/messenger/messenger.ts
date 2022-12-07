@@ -59,9 +59,11 @@ export function render() {
               return;
             }
             const id = Number(target.getAttribute('data-id'));
-            if (this.currentChat == null || this.currentChat != id) {
+            console.log(messenger.currentChat);
+            if (messenger.currentChat == null || messenger.currentChat != id) {
                 const openChat = messengerController.openChat(id);
                 if (openChat) {
+                    messenger.currentChat = openChat.id;
                     chat.switchChat(openChat);
                 }
             }
@@ -117,17 +119,19 @@ export function render() {
 
     };
 
-    return new Screen({
-        content: new Messenger({
-            sidebar: new Sidebar({
-                search: new SearchField({
-                    name: 'search',
-                    placeholder: 'Поиск',
-                }),
-                content: chatsComponent,
+    const messenger = new Messenger({
+        sidebar: new Sidebar({
+            search: new SearchField({
+                name: 'search',
+                placeholder: 'Поиск',
             }),
-            chat: chat,
+            content: chatsComponent,
         }),
+        chat: chat,
+    });
+
+    return new Screen({
+        content: messenger,
         modal: modal
     });
 }
