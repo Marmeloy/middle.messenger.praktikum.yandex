@@ -6,6 +6,7 @@
 
 ## Pull requests
 - <a href="https://github.com/Marmeloy/middle.messenger.praktikum.yandex/pull/1">Sprint 1</a>
+- <a href="https://github.com/Marmeloy/middle.messenger.praktikum.yandex/pull/2">Sprint 2</a>
 
 ## Инструменты
 - TypeScript

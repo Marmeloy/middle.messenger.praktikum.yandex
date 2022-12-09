@@ -1,73 +1,95 @@
 const METHODS = {
-  GET: 'GET',
-  POST: 'POST',
-  PUT: 'PUT',
-  DELETE: 'DELETE',
+    GET: 'GET',
+    POST: 'POST',
+    PUT: 'PUT',
+    DELETE: 'DELETE',
 };
 
-function queryStringify(data:FormData):string {
-  if (typeof data !== 'object') {
-    throw new Error('Data must be object');
-  }
+function queryStringify(data: XMLHttpRequestBodyInit): string {
+    if (typeof data !== 'object') {
+        throw new Error('Data must be object');
+    }
 
-  const keys = Object.keys(data);
-  return keys.reduce((result, key, index) => `${result}${key}=${data[key]}${index < keys.length - 1 ? '&' : ''}`, '?');
+    const keys = Object.keys(data);
+    return keys.reduce((result, key, index) => `${result}${key}=${data[key]}${index < keys.length - 1 ? '&' : ''}`, '?');
 }
 
-type options = {
+export type TOptions = {
     headers?: Record<string, string>,
     method?: string,
     timeout?: number,
-    data?: FormData
+    data?: XMLHttpRequestBodyInit
 }
 
-class HTTPTransport {
-  get = (url:string, options:options = {}) => this.request(url, { ...options, method: METHODS.GET }, options.timeout);
+export class HTTPError {
 
-  post = (url:string, options:options = {}) => this.request(url, { ...options, method: METHODS.POST }, options.timeout);
+    message: string;
+    code?: number;
 
-  put = (url:string, options:options = {}) => this.request(url, { ...options, method: METHODS.PUT }, options.timeout);
+    constructor(message:string, code?: number) {
+        this.message = message;
+        this.code = code;
+    }
+}
 
-  delete = (url:string, options:options = {}) => this.request(url, { ...options, method: METHODS.DELETE }, options.timeout);
+type HTTPMethod = (url: string, options?: TOptions) => Promise<XMLHttpRequest>
 
-  request = (url:string, options:options = {}, timeout:number = 5000) => {
-    const { headers = {}, method, data } = options;
+export default class HTTPTransport {
+    get: HTTPMethod = (url, options = {}) => (
+        this.request((!!options.data ? `${url}${queryStringify(options.data)}` : url), {...options, method: METHODS.GET}, options.timeout)
+    )
+    put: HTTPMethod = (url, options = {}) => (
+        this.request(url, {...options, method: METHODS.PUT}, options.timeout)
+    )
+    post: HTTPMethod = (url, options = {}) => (
+        this.request(url, {...options, method: METHODS.POST}, options.timeout)
+    )
+    delete: HTTPMethod = (url, options = {}) => (
+        this.request(url, {...options, method: METHODS.DELETE}, options.timeout)
+    )
 
-    return new Promise((resolve, reject) => {
-      if (!method) {
-        reject('No method');
-        return;
-      }
+    request = (url: string, options: TOptions = {}, timeout: number = 5000) => {
+        const {headers = {}, method, data} = options;
 
-      const xhr = new XMLHttpRequest();
-      const isGet = method === METHODS.GET;
+        return new Promise<XMLHttpRequest>((resolve, reject) => {
+            if (!method) {
+                reject('No method');
+                return;
+            }
 
-      xhr.open(
-        method,
-        isGet && !!data
-          ? `${url}${queryStringify(data)}`
-          : url,
-      );
+            const xhr = new XMLHttpRequest();
+            const isGet = method === METHODS.GET;
+            xhr.withCredentials = true;
+            xhr.open(method,url);
 
-      Object.keys(headers).forEach((key) => {
-        xhr.setRequestHeader(key, headers[key]);
-      });
+            Object.keys(headers).forEach((key) => {
+                xhr.setRequestHeader(key, headers[key]);
+            });
 
-      xhr.onload = function () {
-        resolve(xhr);
-      };
+            xhr.onload = function () {
+                if (xhr.status >= 400) {
+                    reject(new HTTPError('Bad request' + (xhr.statusText ? '(' + xhr.statusText + ')' : '') + ', code ' + xhr.status, xhr.status));
+                } else {
+                    resolve(xhr);
+                }
+            };
 
-      xhr.onabort = reject;
-      xhr.onerror = reject;
+            xhr.onabort = function () {
+                reject(new HTTPError('Request aborted'));
+            };
+            xhr.onerror = function () {
+                reject(new HTTPError('Bad request'));
+            };
 
-      xhr.timeout = timeout;
-      xhr.ontimeout = reject;
-
-      if (isGet || !data) {
-        xhr.send();
-      } else {
-        xhr.send(data);
-      }
-    });
-  };
+            xhr.timeout = timeout;
+            xhr.ontimeout = function () {
+                reject(new HTTPError('Request timeout'));
+            };
+            if (isGet || !data) {
+                xhr.send();
+            } else {
+                xhr.send(data);
+            }
+        });
+    };
 }

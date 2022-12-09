@@ -1,8 +1,27 @@
+.chats {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  height: 100%;
+  &__chats {
+    flex-grow: 1;
+    overflow: scroll;
+    max-height: calc(100% - 47px);
+  }
+  &__button {
+    padding-bottom: 10px;
+  }
+}
+
 .chat-item {
   display: flex;
-  padding: 12px 0;
+  padding: 12px;
   border-bottom: 1px solid #EAEAEA;
-
+  transition: all .3s ease;
+  cursor: pointer;
+  &:hover {
+    background: rgba(0,0,0,.1);
+  }
   &__avatar {
     height: 100%;
     display: flex;
@@ -10,14 +29,10 @@
     width: 47px;
     margin-right: 10px;
     flex-shrink: 0;
-
-    &::before {
-      content: "";
-      display: block;
-      width: 47px;
-      height: 47px;
-      background: #EFEFEF;
-      border-radius: 50%;
+    overflow: hidden;
+    img {
+      width: 100%;
+      height: 100%;
     }
   }
 

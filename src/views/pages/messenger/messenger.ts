@@ -1,75 +1,137 @@
-import { template } from './messenger.tmpl';
+import {template} from './messenger.tmpl';
 import './messenger.scss';
-import { child, props, View } from '../../../utils/view';
-import { Screen } from '../../layouts/screen';
-import { Sidebar } from '../../components/sidebar';
-import { SearchField } from '../../components/form/fields/search-field';
+import {TChild, TDefaultProps, View} from '../../../utils/view';
+import {Screen} from '../../layouts/screen';
+import {Sidebar} from '../../components/sidebar';
+import {SearchField} from '../../components/form/fields/search-field';
 import {
-  Chats, Chat, Footer, Header, Messages,
+    Chats, Chat as ChatView, Footer, Header, Messages,
 } from '../../components/messanger';
-import { messages, chat } from '../../../utils/types';
-import { Form } from '../../components/form';
+import {Form, Submit, TextField} from '../../components/form';
+import {Modal} from '../../components/modal';
+import {Button} from "../../components/button";
+import {MessengerController} from "../../../controllers/messenger/MessengerController";
+import Chat from "../../../models/Chat";
 
-interface TProps extends props {
-    sidebar?: child,
-    chat?: child,
+
+interface TProps extends TDefaultProps {
+    sidebar?: TChild,
+    chat?: TChild,
 }
 
 export class Messenger extends View<TProps> {
-  constructor(propsAndChildren: TProps) {
-    super('div', propsAndChildren);
-  }
 
-  render():DocumentFragment {
-    return this.compile(template, {
-      sidebar: this.props.sidebar,
-      chat: this.props.chat,
-    });
-  }
+    currentChat:number|null;
+
+    constructor(propsAndChildren: TProps) {
+        super('div', propsAndChildren);
+    }
+
+    render(): DocumentFragment {
+        return this.compile(template, {
+            sidebar: this.props.sidebar,
+            chat: this.props.chat,
+        });
+    }
 }
 
-export function render(chats: chat[], messages:messages[]) {
-  const footer = new Footer({
-    events: {
-      focusout: (e:Event) => {
-        const target = e.target as HTMLElement;
-        if (target && target.tagName === 'INPUT') {
-          footer.validate();
+export function render() {
+    const modal = new Modal({});
+    const messengerController = new MessengerController();
+    const chat = new ChatView({});
+    const chatsComponent = new Chats({
+        chats: [],
+        button: new Button({
+            title: 'Добавить чат',
+            color: 'blue',
+            events: {
+                click: (e: Event) => {
+                    openNewChatModal();
+                }
+            }
+        }),
+        events: {
+          click: (e:Event) => {
+            let target = e.target as HTMLElement;
+            if (!target.classList.contains('chat-item') && target.closest('.chat-item')) {
+              target = target.closest('.chat-item') as HTMLElement;
+            } else {
+              return;
+            }
+            const id = Number(target.getAttribute('data-id'));
+            if (messenger.currentChat == null || messenger.currentChat != id) {
+                const openChat = messengerController.openChat(id);
+                if (openChat) {
+                    messenger.currentChat = openChat.id;
+                    chat.switchChat(openChat);
+                }
+            }
+          }
         }
-      },
-    },
-  });
-  const form = new Form({
-    content: footer,
-    events: {
-      submit: (e:Event) => {
-        e.preventDefault();
-        footer.validate();
-        console.log(form.getData());
-        return false;
-      },
-    },
-  });
-  return new Screen({
-    content: new Messenger({
-      sidebar: new Sidebar({
-        search: new SearchField({
-          name: 'search',
-          placeholder: 'Поиск',
+    });
+
+    const loadChats = () => {
+        messengerController.loadChats().then((chats: Chat[]) => {
+            chatsComponent.setProps({
+                chats: chats
+            })
+        });
+    };
+    loadChats();
+
+    messengerController.eventBus.on('update-chats',loadChats);
+
+    const openNewChatModal = () => {
+
+        const chatName = new TextField({
+            label: 'Название чата',
+            name: 'title'
+        });
+
+        const form = new Form({
+            content: [
+                chatName,
+                new Submit({
+                    title: 'Создать',
+                    color: 'blue',
+                })
+            ],
+            events: {
+                submit: (e: Event) => {
+                    e.preventDefault();
+                    if (chatName.validate('string')) {
+                        messengerController.createChat(form.getData()).then(() => {
+                            modal.setProps({
+                                isOpen: false
+                            });
+                            loadChats();
+                        });
+                    }
+                }
+            }
+        });
+
+        modal.setProps({
+            isOpen: true,
+            title: 'Новый чат',
+            content: form
+        });
+
+    };
+
+    const messenger = new Messenger({
+        sidebar: new Sidebar({
+            search: new SearchField({
+                name: 'search',
+                placeholder: 'Поиск',
+            }),
+            content: chatsComponent,
         }),
-        content: new Chats({
-          chats,
-        }),
-      }),
-      chat: new Chat({
-        header: new Header({
-          name: 'Вадим',
-        }),
-        messages: new Messages({
-          messages,
-        }),
-        footer: form,
-      }),
-    }),
-  });
+        chat: chat,
+    });
+
+    return new Screen({
+        content: messenger,
+        modal: modal
+    });
 }

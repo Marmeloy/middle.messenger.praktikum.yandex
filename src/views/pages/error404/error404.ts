@@ -1,10 +1,10 @@
 import { template } from './error404.tmpl';
 import { Screen } from '../../layouts/screen';
 import { ErrorCard } from '../../components/error-card';
-import { child, props, View } from '../../../utils/view';
+import { TChild, TDefaultProps, View } from '../../../utils/view';
 
-interface TProps extends props {
-  content?: child,
+interface TProps extends TDefaultProps {
+  content?: TChild,
 }
 
 class Error404 extends View<TProps> {

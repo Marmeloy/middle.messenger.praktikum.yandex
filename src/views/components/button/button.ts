@@ -1,8 +1,8 @@
 import { template } from './button.tmpl';
 import './button.scss';
-import { props, View } from '../../../utils/view';
+import { TDefaultProps, View } from '../../../utils/view';
 
-interface TProps extends props {
+interface TProps extends TDefaultProps {
   link?: string,
   color?: string,
   title?: string

@@ -11,9 +11,23 @@
   &__messages {
     flex-grow: 1;
     padding: 0 20px;
+    overflow: scroll;
+    max-height: 100%;
   }
 
   &__footer {
     padding: 0 20px;
+  }
+
+  &__placeholder {
+    width: 100%;
+    height: 100%;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 12px;
+    color: #999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 }

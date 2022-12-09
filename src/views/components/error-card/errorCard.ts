@@ -1,9 +1,9 @@
-import { View, props } from '../../../utils/view';
+import { View, TDefaultProps } from '../../../utils/view';
 
 import { template } from './errorCard.tmpl';
 import './errorCard.scss';
 
-interface TProps extends props {
+interface TProps extends TDefaultProps {
   code?: string | number,
   title?: string,
   back?: {
