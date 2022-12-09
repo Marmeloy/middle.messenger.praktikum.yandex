@@ -1,11 +1,7 @@
-import {child, View} from "../utils/view";
+import {View} from "../utils/view";
 
 export type ControllerConstructor = {
     new(): InstanceType<typeof Controller>;
-};
-
-export type props = {
-    [key: string]: string|number
 };
 
 export abstract class Controller{

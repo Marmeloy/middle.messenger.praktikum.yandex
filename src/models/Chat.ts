@@ -1,4 +1,7 @@
 import Message, {TProps as TMessageProps} from './Message';
+// @ts-ignore
+import avatarUrl from '../../static/images/icons/avatar.svg';
+import API from "../utils/API";
 
 export type TProps = {
     id:number,
@@ -21,5 +24,14 @@ export default class Chat {
         this.avatar = props.avatar;
         this.unreadCount = props.unread_count;
         this.lastMessage = props.last_message ? new Message(props.last_message) : null;
+    }
+
+    getAvatar():string {
+        const api = new API();
+        if (this.avatar) {
+            return api.location + 'resources/'+this.avatar;
+        } else {
+            return avatarUrl;
+        }
     }
 }

@@ -1,10 +1,10 @@
 import { template } from './sidebar.tmpl';
 import './sidebar.scss';
-import { child, props, View } from '../../../utils/view';
+import { TChild, TDefaultProps, View } from '../../../utils/view';
 
-interface TProps extends props {
-    search?: child,
-    content?: child,
+interface TProps extends TDefaultProps {
+    search?: TChild,
+    content?: TChild,
 }
 
 export class Sidebar extends View<TProps> {

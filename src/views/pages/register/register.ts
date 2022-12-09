@@ -3,11 +3,11 @@ import { Button } from '../../components/button';
 import { Card } from '../../components/card';
 import { Screen } from '../../layouts/screen';
 import { TextField, Submit, Form } from '../../components/form';
-import { child, props, View } from '../../../utils/view';
+import { TChild, TDefaultProps, View } from '../../../utils/view';
 import {RegisterController} from "../../../controllers/auth/RegisterController";
 
-interface TProps extends props {
-  content?: child,
+interface TProps extends TDefaultProps {
+  content?: TChild,
 }
 
 export class Register extends View<TProps> {

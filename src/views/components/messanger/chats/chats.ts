@@ -1,12 +1,12 @@
 import { template } from './chats.tmpl';
 import './chats.scss';
-import {child, props, View} from '../../../../utils/view';
+import {TChild, TDefaultProps, View} from '../../../../utils/view';
 import Chat from "../../../../models/Chat";
 
 
-interface TProps extends props {
+interface TProps extends TDefaultProps {
     chats?: Chat[],
-    button?: child
+    button?: TChild
 }
 
 export class Chats extends View<TProps> {

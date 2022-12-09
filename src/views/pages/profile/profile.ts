@@ -4,7 +4,7 @@ import {Screen} from '../../layouts/screen';
 import {Form, TextField, Submit} from '../../components/form';
 // @ts-ignore
 import avatarUrl from '../../../../static/images/icons/avatar.svg';
-import {child, props, View} from '../../../utils/view';
+import {TChild, TDefaultProps, View} from '../../../utils/view';
 import User from "../../../models/User";
 import {Modal} from "../../components/modal";
 import {Button} from "../../components/button";
@@ -12,13 +12,14 @@ import {ProfileController} from "../../../controllers/profile/ProfileController"
 import {FileField} from "../../components/form/fields/file-field";
 import Auth from "../../../services/Auth";
 import {AuthController} from "../../../controllers/auth/AuthController";
+import API from "../../../utils/API";
 
-interface TProps extends props {
+interface TProps extends TDefaultProps {
     avatar?: string,
     name?: string,
-    content?: child,
+    content?: TChild,
     user?: User,
-    modal?: child
+    modal?: TChild
 }
 
 class Profile extends View<TProps> {
@@ -115,9 +116,12 @@ class Profile extends View<TProps> {
                         profileController.changeProfile(form.getData()).then((status:boolean) => {
                             if (status) {
                                 const authService = new Auth();
-                                this.setProps({
-                                    user: authService.user as User
-                                })
+                                authService.update().then(() => {
+                                    const user = authService.user as User;
+                                    this.setProps({
+                                        user: user
+                                    })
+                                });
                             }
                         });
                     }
@@ -126,8 +130,10 @@ class Profile extends View<TProps> {
             },
         });
 
+
+        const api = new API();
         this.setProps({
-            avatar: user.avatar ? 'https://ya-praktikum.tech/api/v2/resources/'+user.avatar : avatarUrl,
+            avatar: user.avatar ? api.location+'resources'+user.avatar : avatarUrl,
             user,
             modal,
             content: [
@@ -199,6 +205,14 @@ class Profile extends View<TProps> {
                             modal.setProps({
                                 isOpen: false
                             });
+                            const authService = new Auth();
+                            authService.update().then(() => {
+                                const user = authService.user as User;
+                                const api = new API();
+                                    this.setProps({
+                                        avatar: user.avatar ? api.location + 'resources' + user.avatar : avatarUrl,
+                                    });
+                                });
                         }
                     })
                 }

@@ -2,15 +2,15 @@ import pug from 'pug';
 import { v4 as makeUUID } from 'uuid';
 import { EventBus } from './event-bus';
 
-type events = Record<string, (e:Event) => void>;
-export type props = {
+type TEvents = Record<string, (e:Event) => void>;
+export type TDefaultProps = {
     id?: string,
-    events?: events,
+    events?: TEvents,
 };
-export type child = InstanceType<typeof View> | InstanceType<typeof View>[];
-type children = { [key: string]: child };
+export type TChild = InstanceType<typeof View> | InstanceType<typeof View>[];
+type TChildren = { [key: string]: TChild };
 
-export abstract class View<TProps extends props> {
+export abstract class View<TProps extends TDefaultProps> {
   static EVENTS = {
     INIT: 'init',
     FLOW_CDM: 'flow:component-did-mount',
@@ -22,13 +22,13 @@ export abstract class View<TProps extends props> {
 
   eventBus: () => EventBus;
 
-  children: children;
+  children: TChildren;
 
   private _element: HTMLElement;
 
   private readonly _meta: {
         tagName: string,
-        props: props,
+        props: TDefaultProps,
         withInternalID: boolean;
     };
 
@@ -59,8 +59,8 @@ export abstract class View<TProps extends props> {
     eventBus.emit(View.EVENTS.INIT);
   }
 
-  private _getChildren(propsAndChildren: TProps): { children: children, props: TProps } {
-    const children:children = {};
+  private _getChildren(propsAndChildren: TProps): { children: TChildren, props: TProps } {
+    const children:TChildren = {};
     const props:TProps = {} as TProps;
     Object.entries(propsAndChildren).forEach(([key, value]) => {
       if (value instanceof View || Array.isArray(value) && value.length > 0 && value[0] instanceof View) {
@@ -103,14 +103,14 @@ export abstract class View<TProps extends props> {
     });
   }
 
-  componentDidMount(oldProps: props = {}): void {
+  componentDidMount(oldProps: TDefaultProps = {}): void {
   }
 
   dispatchComponentDidMount(): void {
     this.eventBus().emit(View.EVENTS.FLOW_CDM);
   }
 
-  private _componentDidUpdate(oldProps: props, newProps: props): void {
+  private _componentDidUpdate(oldProps: TDefaultProps, newProps: TDefaultProps): void {
     const response = this.componentDidUpdate(oldProps, newProps);
     if (!response) {
       return;
@@ -118,7 +118,7 @@ export abstract class View<TProps extends props> {
     this._render();
   }
 
-  componentDidUpdate(oldProps: props, newProps: props) {
+  componentDidUpdate(oldProps: TDefaultProps, newProps: TDefaultProps) {
     return true;
   }
 
@@ -220,14 +220,14 @@ export abstract class View<TProps extends props> {
     });
   }
 
-  private _makeChildrenProxy(children: children): children {
+  private _makeChildrenProxy(children: TChildren): TChildren {
     const self = this;
     return new Proxy(children, {
-      get(target: children, child: string) {
-        const value: child = target[child];
+      get(target: TChildren, child: string) {
+        const value: TChild = target[child];
         return value;
       },
-      set(target: children, child: string, value: child) {
+      set(target: TChildren, child: string, value: TChild) {
         target[child] = value;
 
         self.eventBus().emit(View.EVENTS.FLOW_CDU, { ...target }, target);

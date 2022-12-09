@@ -1,17 +1,18 @@
 import {template} from './header.tmpl';
 import './header.scss';
-import {props, View, child} from '../../../../utils/view';
+import {TDefaultProps, View, TChild} from '../../../../utils/view';
 import {Button} from "../../button";
 import {Modal} from "../../modal";
 import {Form, Submit, TextField} from "../../form";
 import Chat from "../../../../models/Chat";
 import {MessengerController} from "../../../../controllers/messenger/MessengerController";
 
-interface TProps extends props {
+interface TProps extends TDefaultProps {
     name?: string,
-    addButton?: child,
-    removeButton?: child,
-    modal?: child,
+    addButton?: TChild,
+    removeButton?: TChild,
+    removeChatButton?: TChild,
+    modal?: TChild,
     isOpen?: boolean,
     chat?: Chat
 }
@@ -46,8 +47,28 @@ export class Header extends View<TProps> {
                 }
             }
         });
+        const removeChatButton = new Button({
+            title: 'Удалить чат',
+            events: {
+                click: (e: Event) => {
+                    const messengerController = new MessengerController();
+                    const chat = this.props.chat;
+                    if (chat) {
+                        messengerController.deleteChat(chat.id).then(result => {
+                            if (result) {
+                                messengerController.eventBus.emit('close-chat');
+                                messengerController.eventBus.emit('update-chats');
+                            }
+                        });
+                    }
+                }
+            }
+        });
+
+
+
         this.setProps({
-            modal, addButton, removeButton
+            modal, addButton, removeButton, removeChatButton
         })
     }
 
@@ -56,8 +77,10 @@ export class Header extends View<TProps> {
             name: this.props.name,
             addButton: this.props.addButton,
             removeButton: this.props.removeButton,
+            removeChatButton: this.props.removeChatButton,
             modal: this.props.modal,
-            isOpen: this.props.isOpen
+            isOpen: this.props.isOpen,
+            chat: this.props.chat
         });
     }
 

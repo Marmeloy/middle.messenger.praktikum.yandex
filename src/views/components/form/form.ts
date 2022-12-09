@@ -1,9 +1,9 @@
 import { template } from './form.tmpl';
 import './form.scss';
-import { props, child, View } from '../../../utils/view';
+import { TDefaultProps, TChild, View } from '../../../utils/view';
 
-interface TProps extends props {
-  content?: child
+interface TProps extends TDefaultProps {
+  content?: TChild
 }
 
 export class Form extends View<TProps> {

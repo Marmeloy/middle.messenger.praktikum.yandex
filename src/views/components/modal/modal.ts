@@ -1,10 +1,10 @@
-import {child, props, View} from "../../../utils/view";
+import {TChild, TDefaultProps, View} from "../../../utils/view";
 import {template} from "./modal.tmpl";
 import './modal.scss';
 
-interface TProps extends props {
+interface TProps extends TDefaultProps {
     title?: string,
-    content?: child,
+    content?: TChild,
     isOpen?: boolean
 }
 

@@ -1,6 +1,6 @@
 import {template} from './chat.tmpl';
 import './chat.scss';
-import {props, child, View} from '../../../../utils/view';
+import {TDefaultProps, TChild, View} from '../../../../utils/view';
 import MChat from '../../../../models/Chat';
 import {Header} from "../header";
 import {Messages} from "../messages";
@@ -9,11 +9,11 @@ import {Form} from "../../form";
 import {MessengerController} from "../../../../controllers/messenger/MessengerController";
 import {EventBus} from "../../../../utils/event-bus";
 
-interface TProps extends props {
+interface TProps extends TDefaultProps {
     chat?: MChat,
-    header?: child,
-    messages?: child,
-    footer?: child,
+    header?: TChild,
+    messages?: TChild,
+    footer?: TChild,
 }
 
 export class Chat extends View<TProps> {
@@ -39,6 +39,9 @@ export class Chat extends View<TProps> {
             },
         });
 
+        const messengerController = new MessengerController();
+        messengerController.eventBus.on('close-chat', this.closeChat.bind(this));
+
         this.setProps({
             messages,
             footer: form,
@@ -62,9 +65,13 @@ export class Chat extends View<TProps> {
                 name: chat.title,
                 chat: chat
             }),
-            messages: new Messages({
-                messages: [],
-            })
+            messages: new Messages({})
+        });
+    }
+
+    closeChat() {
+        this.setProps({
+            chat: undefined
         });
     }
 }

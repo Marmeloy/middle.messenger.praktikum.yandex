@@ -1,8 +1,8 @@
 import { template } from './timestamp.tmpl';
 import './timestamp.scss';
-import { props, View } from '../../../../../utils/view';
+import { TDefaultProps, View } from '../../../../../utils/view';
 
-interface TProps extends props {
+interface TProps extends TDefaultProps {
     timestamp?: string,
 }
 

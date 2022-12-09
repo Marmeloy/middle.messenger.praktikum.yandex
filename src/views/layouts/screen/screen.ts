@@ -1,12 +1,12 @@
-import { child, props, View } from '../../../utils/view';
+import { TChild, TDefaultProps, View } from '../../../utils/view';
 import { template } from './screen.tmpl';
 import './screen.scss';
 import {Router} from "../../../utils/routing/router";
 
-interface TProps extends props {
-  content?: child,
+interface TProps extends TDefaultProps {
+  content?: TChild,
   back?: string,
-  modal?: child
+  modal?: TChild
 }
 
 export class Screen extends View<TProps> {

@@ -1,4 +1,7 @@
-import HTTPTransport, {options} from "./HTTPTransport";
+import HTTPTransport, {HTTPError, TOptions} from "./HTTPTransport";
+import Auth from "../services/Auth";
+import {Router} from "./routing/router";
+export { HTTPError } from "./HTTPTransport";
 
 export type TEndpoint = (data?: FormData) => Promise<XMLHttpRequest>;
 type TEndpoints = {
@@ -8,6 +11,20 @@ type TEndpoints = {
     put?: TEndpoint,
 };
 type TRoutes = { [key: string]: TRoutes | TEndpoints }
+
+export function catchAPIError(error: HTTPError):never|void {
+    const code = error.code ? error.code : null;
+    if (!code || code != 401) {
+        throw Error(error.message);
+    } else {
+        const authService = new Auth();
+        authService.logout();
+        const router = new Router('.app');
+        router.go('/login');
+    }
+}
+
+
 
 export default class API {
     readonly location = 'https://ya-praktikum.tech/api/v2/';
@@ -83,6 +100,17 @@ export default class API {
                 },
                 get: ():Promise<XMLHttpRequest> => {
                     return http.get(this.location+'chats');
+                },
+                delete: (data: FormData):Promise<XMLHttpRequest> => {
+                    let options = {
+                        headers: {
+                            ['content-type']: 'application/json'
+                        },
+                        data: JSON.stringify({
+                            chatId: data.get('id'),
+                        })
+                    };
+                    return http.delete(this.location+'chats', options);
                 },
                 token: {
                     post: (data: FormData):Promise<XMLHttpRequest> => {

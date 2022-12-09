@@ -1,6 +1,6 @@
 import { template } from './textField.tmpl';
 import './textField.scss';
-import { props, View } from '../../../../../utils/view';
+import { TDefaultProps, View } from '../../../../../utils/view';
 import {
   validateEmail,
   validateLogin,
@@ -9,7 +9,7 @@ import {
   validatePhone, validateString,
 } from '../../../../../utils/validate';
 
-interface TProps extends props {
+interface TProps extends TDefaultProps {
   orientation?: string,
   label?: string,
   name?: string,

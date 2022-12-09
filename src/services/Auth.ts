@@ -1,5 +1,5 @@
 import User from '../models/User';
-import API from "../utils/API";
+import API, {catchAPIError, HTTPError} from "../utils/API";
 
 export default class Auth {
     private static _instance:Auth|null;
@@ -11,29 +11,45 @@ export default class Auth {
         Auth._instance = this;
     }
 
-    authorize() {
+    authorize():Promise<boolean> {
         return new Promise((resolve, reject) => {
             const api = new API();
-            api.endpoints.auth['user'].get().then((e:XMLHttpRequest) => {
-                if (e.status == 200) {
-                    this.user = new User(JSON.parse(e.response));
-                }
-                resolve(true);
-            })
+                api.endpoints.auth['user'].get().then((e: XMLHttpRequest) => {
+                    let data;
+                    try {
+                        data = JSON.parse(e.response);
+                    } catch {
+                        throw new Error('JSON Parse error');
+                    }
+                    this.user = new User(data);
+                    resolve(true);
+                }).catch((error:HTTPError) => {
+                    catchAPIError(error);
+                    resolve(false);
+                });
         });
     }
 
-    update() {
+    update():Promise<boolean> {
         const api = new API();
         const data = new FormData();
         // @ts-ignore
         data.set('id', this.user.id.toString());
-        // @ts-ignore
-        api.endpoints.users.get(data).then((e:XMLHttpRequest) => {
-            if (e.status == 200) {
-                this.user = new User(JSON.parse(e.response));
-            }
-        })
+        return new Promise(resolve => {
+            // @ts-ignore
+            api.endpoints.users.get(data).then((e:XMLHttpRequest) => {
+                let data;
+                try {
+                    data = JSON.parse(e.response);
+                } catch {
+                    throw new Error('JSON Parse error');
+                }
+                this.user = new User(data);
+                resolve(true);
+            }).catch((error:HTTPError) => {
+                catchAPIError(error);
+            });
+        });
     }
 
     logout() {

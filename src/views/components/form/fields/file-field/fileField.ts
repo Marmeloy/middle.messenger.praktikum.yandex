@@ -1,8 +1,8 @@
 import { template } from './fileField.tmpl';
 import './fileField.scss';
-import { props, View } from '../../../../../utils/view';
+import { TDefaultProps, View } from '../../../../../utils/view';
 
-interface TProps extends props {
+interface TProps extends TDefaultProps {
     label?: string,
     name?: string,
 }

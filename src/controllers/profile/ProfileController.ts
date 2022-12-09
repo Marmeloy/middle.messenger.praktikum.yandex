@@ -35,10 +35,10 @@ export class ProfileController extends Controller {
       api.endpoints.users['profile'].put(props).then((e:XMLHttpRequest) => {
         if (e.status == 200) {
           const authService = new Auth();
-          authService.update();
+          authService.update().then();
         }
         resolve(e.status == 200);
-      });
+      }).catch();
     });
   }
 }

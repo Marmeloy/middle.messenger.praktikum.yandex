@@ -1,15 +1,12 @@
 import { template } from './messages.tmpl';
 import './messages.scss';
-import { child, props, View } from '../../../../utils/view';
-import { Timestamp } from './timestamp/timestamp';
+import { TChild, TDefaultProps, View } from '../../../../utils/view';
 import { Status, Text } from '../message';
-import { message, messages } from '../../../../utils/types';
 import {MessengerController} from "../../../../controllers/messenger/MessengerController";
 import Message from "../../../../models/Message";
 
-interface TProps extends props {
-    messages?: messages[],
-    content?: child,
+interface TProps extends TDefaultProps {
+    content?: TChild
 }
 
 export class Messages extends View<TProps> {
@@ -29,7 +26,7 @@ export class Messages extends View<TProps> {
   }
 
   pushMessages(newMessages:Message[]) {
-    const content:child = this.props.content as child;
+    const content:TChild = this.props.content as TChild;
     newMessages.forEach(message => {
       // @ts-ignore
       content.push(new Text({

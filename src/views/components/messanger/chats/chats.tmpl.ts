@@ -4,6 +4,8 @@ export const template = `
         each chat in chats
             .chats__item.chat-item(data-id=chat.id)
                 .chat-item__avatar
+                    if true
+                        img(src=chat.getAvatar() alt='Аватар чата '+chat.title)
                 .chat-item__content
                     .chat-item__name #{chat.title}
                     if chat.lastMessage

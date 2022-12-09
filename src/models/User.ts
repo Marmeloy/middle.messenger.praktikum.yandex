@@ -1,28 +1,28 @@
-import API from "../utils/API";
+import API, {catchAPIError, HTTPError} from "../utils/API";
 
 export type TProps = {
-    id?:number;
+    id?: number;
     first_name: string;
     second_name: string;
     display_name: string;
     login: string;
     email: string;
     phone: string;
-    avatar: string|null;
+    avatar: string | null;
 };
 
 export default class User {
 
-    id:number|undefined;
+    id: number | undefined;
     firstName: string;
     secondName: string;
     displayName: string;
     login: string;
     email: string;
     phone: string;
-    avatar: string|null;
+    avatar: string | null;
 
-    constructor(props:TProps) {
+    constructor(props: TProps) {
         this.id = props.id;
         this.firstName = props.first_name;
         this.secondName = props.second_name;
@@ -33,21 +33,26 @@ export default class User {
         this.avatar = props.avatar;
     }
 
-    static search(login:string):Promise<User[]> {
+    static search(login: string): Promise<User[]> {
         const api = new API();
         const data = new FormData();
         data.set('login', login);
         return new Promise<User[]>(resolve => {
-            api.endpoints.users['search'].post(data).then((e:XMLHttpRequest) => {
+            api.endpoints.users['search'].post(data).then((e: XMLHttpRequest) => {
                 const users: User[] = [];
-                if (e.status == 200) {
-                    const usersData = JSON.parse(e.response);
-                    usersData.forEach(item => {
-                        users.push(new User(item));
-                    })
+                let usersData;
+                try {
+                    usersData = JSON.parse(e.response);
+                } catch {
+                    throw new Error('JSON Parse error');
                 }
+                usersData.forEach(item => {
+                    users.push(new User(item));
+                })
                 resolve(users);
-            })
+            }).catch((error: HTTPError) => {
+                catchAPIError(error);
+            });
         });
     }
 }

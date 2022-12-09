@@ -1,6 +1,6 @@
 import {template} from './messenger.tmpl';
 import './messenger.scss';
-import {child, props, View} from '../../../utils/view';
+import {TChild, TDefaultProps, View} from '../../../utils/view';
 import {Screen} from '../../layouts/screen';
 import {Sidebar} from '../../components/sidebar';
 import {SearchField} from '../../components/form/fields/search-field';
@@ -14,9 +14,9 @@ import {MessengerController} from "../../../controllers/messenger/MessengerContr
 import Chat from "../../../models/Chat";
 
 
-interface TProps extends props {
-    sidebar?: child,
-    chat?: child,
+interface TProps extends TDefaultProps {
+    sidebar?: TChild,
+    chat?: TChild,
 }
 
 export class Messenger extends View<TProps> {
@@ -59,7 +59,6 @@ export function render() {
               return;
             }
             const id = Number(target.getAttribute('data-id'));
-            console.log(messenger.currentChat);
             if (messenger.currentChat == null || messenger.currentChat != id) {
                 const openChat = messengerController.openChat(id);
                 if (openChat) {
@@ -80,6 +79,8 @@ export function render() {
     };
     loadChats();
 
+    messengerController.eventBus.on('update-chats',loadChats);
+
     const openNewChatModal = () => {
 
         const chatName = new TextField({
@@ -98,7 +99,6 @@ export function render() {
             events: {
                 submit: (e: Event) => {
                     e.preventDefault();
-                    console.log('test');
                     if (chatName.validate('string')) {
                         messengerController.createChat(form.getData()).then(() => {
                             modal.setProps({
