@@ -1,9 +1,9 @@
 import { template } from './submit.tmpl';
 import '../../../button/button.scss';
 import './submit.scss';
-import { props, View } from '../../../../../utils/view';
+import { TDefaultProps, View } from '../../../../../utils/view';
 
-interface TProps extends props {
+interface TProps extends TDefaultProps {
   color?: string,
   title?: string
 }

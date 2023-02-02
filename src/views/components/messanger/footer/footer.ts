@@ -1,9 +1,9 @@
 import { template } from './footer.tmpl';
 import './footer.scss';
-import { props, View } from '../../../../utils/view';
+import { TDefaultProps, View } from '../../../../utils/view';
 import { validateString } from '../../../../utils/validate';
 
-interface TProps extends props {
+interface TProps extends TDefaultProps {
 }
 
 export class Footer extends View<TProps> {
@@ -16,10 +16,13 @@ export class Footer extends View<TProps> {
     });
   }
 
-  validate():void {
-    const input:HTMLInputElement|null = this.element.querySelector('input[type="text"]');
-    if (input && !validateString(input.value)) {
-      alert('Сообщение не может быть пустым');
-    }
+  validate():boolean {
+    const input:HTMLInputElement = this.element.querySelector('input[type="text"]') as HTMLInputElement;
+    return validateString(input.value);
+  }
+
+  clear():void {
+    const input:HTMLInputElement = this.element.querySelector('input[type="text"]') as HTMLInputElement;
+    input.value = '';
   }
 }

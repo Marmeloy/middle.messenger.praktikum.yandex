@@ -1,11 +1,11 @@
 import { template } from './text.tmpl';
 import './text.scss';
-import { child, props, View } from '../../../../../../utils/view';
+import { TChild, TDefaultProps, View } from '../../../../../../utils/view';
 
-interface TProps extends props {
+interface TProps extends TDefaultProps {
     ingoing?: boolean,
     content?: string,
-    status?: child
+    status?: TChild
 }
 
 export class Text extends View<TProps> {

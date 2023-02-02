@@ -1,11 +1,11 @@
 import { template } from './card.tmpl';
 import './card.scss';
-import { child, props, View } from '../../../utils/view';
+import { TChild, TDefaultProps, View } from '../../../utils/view';
 
-interface TProps extends props {
+interface TProps extends TDefaultProps {
   title?: string,
-  content?: child,
-  footer?: child
+  content?: TChild,
+  footer?: TChild
 }
 
 export class Card extends View<TProps> {

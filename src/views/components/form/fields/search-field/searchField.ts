@@ -1,8 +1,8 @@
 import { template } from './searchField.tmpl';
 import './searchField.scss';
-import { props, View } from '../../../../../utils/view';
+import { TDefaultProps, View } from '../../../../../utils/view';
 
-interface TProps extends props {
+interface TProps extends TDefaultProps {
     name?: string,
     placeholder?: string,
     value?: string
