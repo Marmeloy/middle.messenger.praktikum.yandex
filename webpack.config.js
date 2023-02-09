@@ -84,7 +84,7 @@ module.exports = {
       directory: path.join(__dirname, 'dist'),
     },
     compress: true,
-    port: 3505,
+    port: 3000,
     historyApiFallback: true,
   },
   ignoreWarnings: [
