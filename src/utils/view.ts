@@ -1,4 +1,4 @@
-import pug from 'pug';
+// import pug from 'pug';
 import { v4 as makeUUID } from 'uuid';
 import { EventBus } from './event-bus';
 
@@ -148,7 +148,7 @@ export abstract class View<TProps extends TDefaultProps> {
       }
     });
     const fragment: HTMLTemplateElement = this._createDocumentTemplate();
-
+    const pug = require('pug');
     fragment.innerHTML = pug.render(template, propsAndStubs);
 
     Object.entries(this.children).forEach(([key, child]) => {
@@ -184,7 +184,7 @@ export abstract class View<TProps extends TDefaultProps> {
         this._element.setAttribute('class', '');
         block.classList.forEach((item) => {
           this._element.classList.add(item);
-        })
+        });
         const children = Array.from(block.childNodes) as ChildNode[];
         children.forEach((childNode) => {
           this._element.appendChild(childNode);

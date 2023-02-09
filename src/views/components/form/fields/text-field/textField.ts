@@ -39,7 +39,7 @@ export class TextField extends View<TProps> {
   getValue():string|null {
     const input:HTMLInputElement|null = this.element.querySelector('input');
     if (input) {
-      const {value} = input;
+      const { value } = input;
       return input.value;
     }
     return null;

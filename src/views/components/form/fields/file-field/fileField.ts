@@ -8,16 +8,16 @@ interface TProps extends TDefaultProps {
 }
 
 export class FileField extends View<TProps> {
-    value:string;
+  value:string;
 
-    constructor(propsAndChildren: TProps) {
-        super('div', propsAndChildren);
-    }
+  constructor(propsAndChildren: TProps) {
+    super('div', propsAndChildren);
+  }
 
-    render():DocumentFragment {
-        return this.compile(template, {
-            label: this.props.label,
-            name: this.props.name,
-        });
-    }
+  render():DocumentFragment {
+    return this.compile(template, {
+      label: this.props.label,
+      name: this.props.name,
+    });
+  }
 }

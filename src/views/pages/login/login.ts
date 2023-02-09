@@ -4,7 +4,7 @@ import { Card } from '../../components/card';
 import { Screen } from '../../layouts/screen';
 import { Form, TextField, Submit } from '../../components/form';
 import { TChild, TDefaultProps, View } from '../../../utils/view';
-import {AuthController} from "../../../controllers/auth/AuthController";
+import { AuthController } from '../../../controllers/auth/AuthController';
 
 interface TProps extends TDefaultProps {
     content?: TChild,
@@ -61,7 +61,7 @@ export function render() {
     events: {
       submit: (e:Event) => {
         e.preventDefault();
-        let isValid = loginField.validate('login') && passwordField.validate('password');
+        const isValid = loginField.validate('login') && passwordField.validate('password');
         if (isValid) {
           const authController = new AuthController();
           authController.login(form.getData());

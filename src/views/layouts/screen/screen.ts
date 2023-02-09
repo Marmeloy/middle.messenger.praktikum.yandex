@@ -1,7 +1,7 @@
 import { TChild, TDefaultProps, View } from '../../../utils/view';
 import { template } from './screen.tmpl';
 import './screen.scss';
-import {Router} from "../../../utils/routing/router";
+import { Router } from '../../../utils/routing/router';
 
 interface TProps extends TDefaultProps {
   content?: TChild,
@@ -20,7 +20,7 @@ export class Screen extends View<TProps> {
             router.back();
           }
         }
-      }
+      },
     };
     super('div', propsAndChildren);
   }
@@ -29,7 +29,7 @@ export class Screen extends View<TProps> {
     return this.compile(template, {
       content: this.props.content,
       back: this.props.back,
-      modal: this.props.modal
+      modal: this.props.modal,
     });
   }
 }

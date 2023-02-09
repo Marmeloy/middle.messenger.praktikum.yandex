@@ -1,8 +1,7 @@
 import { template } from './chats.tmpl';
 import './chats.scss';
-import {TChild, TDefaultProps, View} from '../../../../utils/view';
-import Chat from "../../../../models/Chat";
-
+import { TChild, TDefaultProps, View } from '../../../../utils/view';
+import Chat from '../../../../models/Chat';
 
 interface TProps extends TDefaultProps {
     chats?: Chat[],
@@ -17,7 +16,7 @@ export class Chats extends View<TProps> {
   render():DocumentFragment {
     return this.compile(template, {
       chats: this.props.chats,
-      button: this.props.button
+      button: this.props.button,
     });
   }
 }

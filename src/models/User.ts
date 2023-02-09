@@ -1,4 +1,4 @@
-import API, {catchAPIError, HTTPError} from "../utils/API";
+import API, { catchAPIError, HTTPError } from '../utils/API';
 
 export type TProps = {
     id?: number;
@@ -12,47 +12,53 @@ export type TProps = {
 };
 
 export default class User {
+  id: number | undefined;
 
-    id: number | undefined;
-    firstName: string;
-    secondName: string;
-    displayName: string;
-    login: string;
-    email: string;
-    phone: string;
-    avatar: string | null;
+  firstName: string;
 
-    constructor(props: TProps) {
-        this.id = props.id;
-        this.firstName = props.first_name;
-        this.secondName = props.second_name;
-        this.displayName = props.display_name;
-        this.login = props.login;
-        this.email = props.email;
-        this.phone = props.phone;
-        this.avatar = props.avatar;
-    }
+  secondName: string;
 
-    static search(login: string): Promise<User[]> {
-        const api = new API();
-        const data = new FormData();
-        data.set('login', login);
-        return new Promise<User[]>(resolve => {
-            api.endpoints.users['search'].post(data).then((e: XMLHttpRequest) => {
-                const users: User[] = [];
-                let usersData;
-                try {
-                    usersData = JSON.parse(e.response);
-                } catch {
-                    throw new Error('JSON Parse error');
-                }
-                usersData.forEach(item => {
-                    users.push(new User(item));
-                })
-                resolve(users);
-            }).catch((error: HTTPError) => {
-                catchAPIError(error);
-            });
+  displayName: string;
+
+  login: string;
+
+  email: string;
+
+  phone: string;
+
+  avatar: string | null;
+
+  constructor(props: TProps) {
+    this.id = props.id;
+    this.firstName = props.first_name;
+    this.secondName = props.second_name;
+    this.displayName = props.display_name;
+    this.login = props.login;
+    this.email = props.email;
+    this.phone = props.phone;
+    this.avatar = props.avatar;
+  }
+
+  static search(login: string): Promise<User[]> {
+    const api = new API();
+    const data = new FormData();
+    data.set('login', login);
+    return new Promise<User[]>((resolve) => {
+      api.endpoints.users['search'].post(data).then((e: XMLHttpRequest) => {
+        const users: User[] = [];
+        let usersData;
+        try {
+          usersData = JSON.parse(e.response);
+        } catch {
+          throw new Error('JSON Parse error');
+        }
+        usersData.forEach((item) => {
+          users.push(new User(item));
         });
-    }
+        resolve(users);
+      }).catch((error: HTTPError) => {
+        catchAPIError(error);
+      });
+    });
+  }
 }

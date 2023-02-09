@@ -27,10 +27,21 @@ npm i
 npm run build
 ```
 
+Запуск сервера:
+```
+npm run server
+```
+
 Запуск (dev):
 ```
 npm run dev
 ```
+
+Запуск тестов:
+```
+npm run test
+```
+
 Проект запустится по URL:
 ```
 http://localhost:3000
