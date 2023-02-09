@@ -3,6 +3,7 @@
 ## Deploy
 
 - <a href="https://delightful-lebkuchen-c9203f.netlify.app/">Netlify</a>
+- <a href="https://middle-messenger-praktikum-yandex-d5i4.onrender.com/">Render</a>
 
 ## Pull requests
 - <a href="https://github.com/Marmeloy/middle.messenger.praktikum.yandex/pull/1">Sprint 1</a>
