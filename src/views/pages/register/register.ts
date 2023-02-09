@@ -4,7 +4,7 @@ import { Card } from '../../components/card';
 import { Screen } from '../../layouts/screen';
 import { TextField, Submit, Form } from '../../components/form';
 import { TChild, TDefaultProps, View } from '../../../utils/view';
-import {RegisterController} from "../../../controllers/auth/RegisterController";
+import { RegisterController } from '../../../controllers/auth/RegisterController';
 
 interface TProps extends TDefaultProps {
   content?: TChild,
@@ -105,17 +105,16 @@ export function render() {
     events: {
       submit: (e) => {
         e.preventDefault();
-        if (loginField.validate('login') &&
-          passwordField.validate('password') &&
-          repeatPasswordField.validate('password') &&
-          emailField.validate('email') &&
-          firstNameField.validate('name') &&
-          secondNameField.validate('name') &&
-          phoneField.validate('phone')) {
+        if (loginField.validate('login')
+          && passwordField.validate('password')
+          && repeatPasswordField.validate('password')
+          && emailField.validate('email')
+          && firstNameField.validate('name')
+          && secondNameField.validate('name')
+          && phoneField.validate('phone')) {
           const registerController = new RegisterController();
           registerController.register(form.getData());
         }
-
       },
     },
   });
